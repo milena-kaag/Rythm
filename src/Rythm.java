@@ -7,6 +7,7 @@ import java.io.File;
 
 public class Rythm {
     public static void main(String[] args) {
+
         MyListener start = new MyListener();
         Clip musique = null;
         try {
