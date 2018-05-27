@@ -1,7 +1,7 @@
 
 public class Note {
 
-    int colonne, x1, x2, y, duree, dureeRestante, score1;
+    int colonne, x1, x2, y, duree, preScore1, preScore2;
     boolean hitByP1 = true;
     boolean hitByP2 = true;
 

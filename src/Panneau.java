@@ -27,17 +27,17 @@ public class Panneau extends JPanel {
     Panneau(String musicBGfile){
         try { // On charge les images nécessaires au jeu
             this.musicBG = ImageIO.read(new File(musicBGfile));
-            this.BG = ImageIO.read(new File("Files/BG.png"));
-            this.note = ImageIO.read(new File("Files/RectangleQuiDescend.png"));
-            this.slider = ImageIO.read(new File("Files/Slider.png"));
-            this.keyLight1 = ImageIO.read(new File("Files/KeyLight1.png"));
-            this.keyLight2 = ImageIO.read(new File("Files/KeyLight2.png"));
-            this.keyLight3 = ImageIO.read(new File("Files/KeyLight3.png"));
-            this.keyLight4 = ImageIO.read(new File("Files/KeyLight4.png"));
-            this.hit300 = ImageIO.read(new File("Files/hit300.png"));
-            this.hit100 = ImageIO.read(new File("Files/hit100.png"));
-            this.hit50 = ImageIO.read(new File("Files/hit50.png"));
-            this.hit0 = ImageIO.read(new File("Files/hit0.png"));
+            this.BG = ImageIO.read(new File("Ressources/BG.png"));
+            this.note = ImageIO.read(new File("Ressources/RectangleQuiDescend.png"));
+            this.slider = ImageIO.read(new File("Ressources/Slider.png"));
+            this.keyLight1 = ImageIO.read(new File("Ressources/KeyLight1.png"));
+            this.keyLight2 = ImageIO.read(new File("Ressources/KeyLight2.png"));
+            this.keyLight3 = ImageIO.read(new File("Ressources/KeyLight3.png"));
+            this.keyLight4 = ImageIO.read(new File("Ressources/KeyLight4.png"));
+            this.hit300 = ImageIO.read(new File("Ressources/hit300.png"));
+            this.hit100 = ImageIO.read(new File("Ressources/hit100.png"));
+            this.hit50 = ImageIO.read(new File("Ressources/hit50.png"));
+            this.hit0 = ImageIO.read(new File("Ressources/hit0.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -69,11 +69,8 @@ public class Panneau extends JPanel {
                 if((keysPressed[i] > 4)&&(keysPressed[i] <= 7)) {
                     g.drawImage(keyLight2, keyX, 545, 59, 58, this);
                 }
-                if((keysPressed[i] > 7)&&(keysPressed[i] <= 9)) {
+                if(keysPressed[i] > 7) {
                     g.drawImage(keyLight1, keyX, 545, 59, 58, this);
-                }
-                if(keysPressed[i] == 10){
-                    g.drawImage(keyLight3, keyX, 545, 59, 58, this);
                 }
                 keysPressed[i] -= 1;
             }
@@ -112,18 +109,18 @@ public class Panneau extends JPanel {
             }
         }
         for(int i=0; i<20; i++) { // On affiche les notes à l'écran
-            if(this.notesOnScreen[i].y < 650) {
-                if(this.notesOnScreen[i].duree == 0) {
+            if(this.notesOnScreen[i].duree == 0) {
+                if(this.notesOnScreen[i].y < 650) {
                     g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y, 59, 30, this);
-                    g.drawImage(note, this.notesOnScreen[i].x2, this.notesOnScreen[i].y, 59, 30, this);
-                } else {
-                    g.drawImage(slider, this.notesOnScreen[i].x1 + 10, this.notesOnScreen[i].y + 30 - this.notesOnScreen[i].duree*sliderLength, 39, this.notesOnScreen[i].duree*sliderLength, this);
-                    g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y - this.notesOnScreen[i].duree*sliderLength, 59, 30, this);
-                    g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y, 59, 30, this);
-                    g.drawImage(slider, this.notesOnScreen[i].x2 + 10, this.notesOnScreen[i].y + 30 - this.notesOnScreen[i].duree*sliderLength, 39, this.notesOnScreen[i].duree*sliderLength, this);
-                    g.drawImage(note, this.notesOnScreen[i].x2, this.notesOnScreen[i].y - this.notesOnScreen[i].duree*sliderLength, 59, 30, this);
                     g.drawImage(note, this.notesOnScreen[i].x2, this.notesOnScreen[i].y, 59, 30, this);
                 }
+            } else {
+                g.drawImage(slider, this.notesOnScreen[i].x1 + 10, this.notesOnScreen[i].y + 30 - this.notesOnScreen[i].duree*sliderLength, 39, this.notesOnScreen[i].duree*sliderLength, this);
+                g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y - this.notesOnScreen[i].duree*sliderLength, 59, 30, this);
+                g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y, 59, 30, this);
+                g.drawImage(slider, this.notesOnScreen[i].x2 + 10, this.notesOnScreen[i].y + 30 - this.notesOnScreen[i].duree*sliderLength, 39, this.notesOnScreen[i].duree*sliderLength, this);
+                g.drawImage(note, this.notesOnScreen[i].x2, this.notesOnScreen[i].y - this.notesOnScreen[i].duree*sliderLength, 59, 30, this);
+                g.drawImage(note, this.notesOnScreen[i].x2, this.notesOnScreen[i].y, 59, 30, this);
             }
         }
 
@@ -133,17 +130,31 @@ public class Panneau extends JPanel {
     public void updateNotes(int vitesse, Score score1, Score score2){ // Méthode qui actualise l'ordonnée des notes entre 2 rafraîchissements
         for(int i=0; i<20; i++){
             this.notesOnScreen[i].y += vitesse;
-            if((this.notesOnScreen[i].y > 620)&&(!this.notesOnScreen[i].hitByP1)&&(this.notesOnScreen[i].colonne != -1)&&(this.notesOnScreen[i].x1 != 1000)&&(this.notesOnScreen[i].duree == 0)){
-                //score1.addNote(0);
-                this.scoreEffets[notesOnScreen[i].colonne][0] = 10;
-                this.scoreEffets[notesOnScreen[i].colonne][1] = 0;
-                this.notesOnScreen[i].hitByP1 = true;
+            if((!this.notesOnScreen[i].hitByP1)&&(this.notesOnScreen[i].colonne != -1)&&(this.notesOnScreen[i].x1 != 1000)&&  (((this.notesOnScreen[i].duree == 0)&&(this.notesOnScreen[i].y > 620)) || ((this.notesOnScreen[i].duree != 0)&&(this.notesOnScreen[i].y > 620 + this.notesOnScreen[i].duree*sliderLength)))){
+                if((!this.notesOnScreen[i].hitByP1)&&(this.notesOnScreen[i].preScore1 != 0)){
+                    score1.addNote(50);
+                    this.scoreEffets[notesOnScreen[i].colonne][0] = 10;
+                    this.scoreEffets[notesOnScreen[i].colonne][1] = 50;
+                    this.notesOnScreen[i].hitByP1 = true;
+                } else {
+                    score1.addNote(0);
+                    this.scoreEffets[notesOnScreen[i].colonne][0] = 10;
+                    this.scoreEffets[notesOnScreen[i].colonne][1] = 0;
+                    this.notesOnScreen[i].hitByP1 = true;
+                }
             }
-            if((this.notesOnScreen[i].y > 620)&&(!this.notesOnScreen[i].hitByP2)&&(this.notesOnScreen[i].colonne != -1)&&(this.notesOnScreen[i].x2 != 1000)&&(this.notesOnScreen[i].duree == 0)){
-                //score2.addNote(0);
-                this.scoreEffets[notesOnScreen[i].colonne + 4][0] = 10;
-                this.scoreEffets[notesOnScreen[i].colonne + 4][1] = 0;
-                this.notesOnScreen[i].hitByP2 = true;
+            if((!this.notesOnScreen[i].hitByP2)&&(this.notesOnScreen[i].colonne != -1)&&(this.notesOnScreen[i].x2 != 1000)&&  (((this.notesOnScreen[i].duree == 0)&&(this.notesOnScreen[i].y > 620)) || ((this.notesOnScreen[i].duree != 0)&&(this.notesOnScreen[i].y > 620 + this.notesOnScreen[i].duree*sliderLength)))){
+                if((!this.notesOnScreen[i].hitByP2)&&(this.notesOnScreen[i].preScore2 != 0)){
+                    score2.addNote(50);
+                    this.scoreEffets[notesOnScreen[i].colonne + 4][0] = 10;
+                    this.scoreEffets[notesOnScreen[i].colonne + 4][1] = 50;
+                    this.notesOnScreen[i].hitByP2 = true;
+                } else {
+                    score2.addNote(0);
+                    this.scoreEffets[notesOnScreen[i].colonne + 4][0] = 10;
+                    this.scoreEffets[notesOnScreen[i].colonne + 4][1] = 0;
+                    this.notesOnScreen[i].hitByP2 = true;
+                }
             }
         }
     }

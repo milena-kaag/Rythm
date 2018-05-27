@@ -1,20 +1,19 @@
-
 import javax.swing.*;
 
+//Classe qui définit la fenêtre en elle-même (le cadre)
 
 public class Fenetre extends JFrame {
 
     Panneau jeSuislePan = null;
 
-    public Fenetre() {
-        // Paramètres de la fenêtre
-        this.setTitle("Super jeu vidéal de ouf");
-        this.setSize(816, 642);
-        this.setLocationRelativeTo(null);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public Fenetre(){
+        this.setTitle("Jeu vidéal");
+        this.setSize(816,642);
+        this.setLocationRelativeTo(null); //Fenêtre se place au milieu de l'écran
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Le programme s'arrête quand le fenêtre est fermée
+        this.setResizable(false); // On ne peut pas changer la taille de la fenêtre. Sinon problèmes d'affichage
+        this.setAlwaysOnTop(true); // La fenêtre sera toujours au premier plan
         this.setVisible(true);
-        this.setResizable(false);
-        this.setAlwaysOnTop(true);
     }
 
     public void setGameScreen (String BGfilename, int sliderLength) { // Set l'écran de jeu au début d'une map
@@ -55,8 +54,8 @@ public class Fenetre extends JFrame {
         jeSuislePan.notesOnScreen[note].x2 = 440+60*(colonne);
         jeSuislePan.notesOnScreen[note].y = -55;
         jeSuislePan.notesOnScreen[note].duree = duree;
-        jeSuislePan.notesOnScreen[note].dureeRestante = duree;
-        jeSuislePan.notesOnScreen[note].score1 = 0;
+        jeSuislePan.notesOnScreen[note].preScore1 = 0;
+        jeSuislePan.notesOnScreen[note].preScore2 = 0;
         jeSuislePan.notesOnScreen[note].hitByP1 = false;
         jeSuislePan.notesOnScreen[note].hitByP2 = false;
     }

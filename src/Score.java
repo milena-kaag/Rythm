@@ -22,5 +22,25 @@ public class Score {
         this.acc = (double)(s)/(double)(3*this.avancement);
     }
 
+    public void calculComboMax(){
+        int maxTemp = 0;
+        int max = 0;
+        for(int i=0; i<this.avancement; i++){
+            if(this.notes[i] != 0){
+                maxTemp++;
+            } else {
+                if(maxTemp > max){
+                    max = maxTemp;
+                }
+                maxTemp = 0;
+            }
+        }
+        if(max == 0){
+            this.combos = maxTemp;
+        } else {
+            this.combos = max;
+        }
+    }
+
 
 }

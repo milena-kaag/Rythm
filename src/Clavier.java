@@ -10,6 +10,10 @@ public class Clavier implements KeyListener {
     Fenetre fenetre;
     Clip hitsound = null;
     Score score1, score2;
+    int palier300 = 40;
+    int palier100 = 60;
+    int palier50 = 80;
+    int palier0 = 140;
 
     public Clavier(Fenetre fenetre, Score score1, Score score2){
         this.fenetre = fenetre;
@@ -17,7 +21,7 @@ public class Clavier implements KeyListener {
         this.score2 = score2;
         try { // On charge un effet sonore pour quand un joueur appuie sur une touche
             hitsound = AudioSystem.getClip();
-            hitsound.open(AudioSystem.getAudioInputStream(new File("Files/NormalHitclap2.wav")));
+            hitsound.open(AudioSystem.getAudioInputStream(new File("Ressources/NormalHitclap2.wav")));
         } catch (Exception exc) {
             exc.printStackTrace(System.out);
         }
@@ -80,124 +84,169 @@ public class Clavier implements KeyListener {
     }
 
     public void keyPressManager(int colonne){
-        accCheck(colonne%4, 1 + colonne/4);
-        hitsound.stop();
-        hitsound.setMicrosecondPosition(0);
-        hitsound.start();
+        if(this.fenetre.jeSuislePan.keysPressed[colonne] < 7){
+            accCheck(colonne%4, 1 + colonne/4);
+            hitsound.stop();
+            hitsound.setMicrosecondPosition(0);
+            hitsound.start();
+        }
         this.fenetre.gameKeyboard(colonne);
     }
 
-    public void keyReleaseManager(int colonne){
+    public int keyReleaseManager(int colonne){
         for(int i=0; i<this.fenetre.getNotesOnScreen().length; i++){
-            if((this.fenetre.getNotesOnScreen()[i].colonne == colonne) && (this.fenetre.getNotesOnScreen()[i].duree != 0)) {
+            if((this.fenetre.getNotesOnScreen()[i].colonne == colonne%4) && (this.fenetre.getNotesOnScreen()[i].duree != 0)) {
                 if (colonne < 4) {
                     accCheckSlider(1, i);
-                    /*if (!this.fenetre.getNotesOnScreen()[i].hitByP1) {
-                        this.score1.addNote(50);
-                        this.fenetre.getNotesOnScreen()[i].hitByP1 = true;
-                    }*/
+                    return 0;
                 } else {
                     accCheckSlider(2, i);
-                    /*if (!this.fenetre.getNotesOnScreen()[i].hitByP2) {
-                        this.score2.addNote(50);
-                        this.fenetre.getNotesOnScreen()[i].hitByP2 = true;
-                    }*/
+                    return 0;
                 }
             }
         }
+        return 0;
     }
 
-    public void accCheck (int colonne, int player){
+    public int accCheck (int colonne, int player){
         for(int i=0; i<this.fenetre.getNotesOnScreen().length; i++){
-            if((this.fenetre.getNotesOnScreen()[i].colonne == colonne)&&(this.fenetre.getNotesOnScreen()[i].y < 620)&&(this.fenetre.getNotesOnScreen()[i].y > 440)){
-                if((this.fenetre.getNotesOnScreen()[i].y-540 <= 40)&&(this.fenetre.getNotesOnScreen()[i].y-540 >= -40)){
+            if((this.fenetre.getNotesOnScreen()[i].colonne == colonne)&&(this.fenetre.getNotesOnScreen()[i].y < 540 + palier0)&&(this.fenetre.getNotesOnScreen()[i].y > 540 - palier0)){
+                if((this.fenetre.getNotesOnScreen()[i].y-540 <= palier300)&&(this.fenetre.getNotesOnScreen()[i].y-540 >= -palier300)){
                     if(this.fenetre.getNotesOnScreen()[i].duree == 0) {
                         circle(player, 300, i);
                         this.fenetre.addScoreEffect(colonne, player, 300);
+                        return 0;
                     } else {
-                        sliderStart(300, i);
+                        sliderStart(300, i, player);
+                        return 0;
                     }
                 } else {
-                    if((this.fenetre.getNotesOnScreen()[i].y-540 <= 60)&&(this.fenetre.getNotesOnScreen()[i].y-540 >= -60)){
+                    if((this.fenetre.getNotesOnScreen()[i].y-540 <= palier100)&&(this.fenetre.getNotesOnScreen()[i].y-540 >= -palier100)){
                         if(this.fenetre.getNotesOnScreen()[i].duree == 0) {
                             circle(player, 100, i);
                             this.fenetre.addScoreEffect(colonne, player, 100);
+                            return 0;
                         } else {
-                            sliderStart(100, i);
+                            sliderStart(100, i, player);
+                            return 0;
                         }
                     } else {
-                        if((this.fenetre.getNotesOnScreen()[i].y-540 <= 80)&&(this.fenetre.getNotesOnScreen()[i].y-540 >= -80)){
-                            if(this.fenetre.getNotesOnScreen()[i].duree == 0) {
+                        if ((this.fenetre.getNotesOnScreen()[i].y - 540 <= palier50) && (this.fenetre.getNotesOnScreen()[i].y - 540 >= -palier50)) {
+                            if (this.fenetre.getNotesOnScreen()[i].duree == 0) {
                                 circle(player, 50, i);
                                 this.fenetre.addScoreEffect(colonne, player, 50);
+                                return 0;
                             } else {
-                                sliderStart(50, i);
+                                sliderStart(50, i, player);
+                                return 0;
+                            }
+                        } else {
+                            if ((this.fenetre.getNotesOnScreen()[i].y - 540 <= palier0) && (this.fenetre.getNotesOnScreen()[i].y - 540 >= -palier0)) {
+                                if (this.fenetre.getNotesOnScreen()[i].duree == 0) {
+                                    circle(player, 0, i);
+                                    this.fenetre.addScoreEffect(colonne, player, 0);
+                                    return 0;
+                                } else {
+                                    sliderStart(0, i, player);
+                                    return 0;
+                                }
                             }
                         }
                     }
                 }
             }
         }
+        return 0;
     }
 
     public void circle(int player, int score, int i){
         if((player == 1)&&(this.fenetre.getNotesOnScreen()[i].x1 != 1000)) {
             this.fenetre.getNotesOnScreen()[i].x1 = 1000;
             this.fenetre.getNotesOnScreen()[i].hitByP1 = true;
-            //this.score1.addNote( score);
+            this.score1.addNote( score);
         }
         if((player == 2)&&(this.fenetre.getNotesOnScreen()[i].x2 != 1000)){
             this.fenetre.getNotesOnScreen()[i].x2 = 1000;
             this.fenetre.getNotesOnScreen()[i].hitByP2 = true;
-            //this.score2.addNote( score);
+            this.score2.addNote( score);
         }
     }
 
     public void accCheckSlider(int player, int i){
-        if(this.fenetre.getNotesOnScreen()[i].dureeRestante == 0){
-            if((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= 40)&&(this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -40)){
+        if(((player == 1)&&(!this.fenetre.getNotesOnScreen()[i].hitByP1)) || ((player == 2)&&(!this.fenetre.getNotesOnScreen()[i].hitByP2))) {
+            if ((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= palier300) && (this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -palier300)) {
                 sliderEnd(player, 300, i);
+                hitsound.stop();
+                hitsound.setMicrosecondPosition(0);
+                hitsound.start();
             } else {
-                if ((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= 60) && (this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -60)) {
+                if ((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= palier100) && (this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -palier100)) {
                     sliderEnd(player, 100, i);
+                    hitsound.stop();
+                    hitsound.setMicrosecondPosition(0);
+                    hitsound.start();
                 } else {
-                    if ((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= 80) && (this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -80)) {
+                    if ((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= palier50) && (this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -palier50)) {
                         sliderEnd(player, 50, i);
+                        hitsound.stop();
+                        hitsound.setMicrosecondPosition(0);
+                        hitsound.start();
+                    } else {
+                        if(player == 1){
+                            this.fenetre.getNotesOnScreen()[i].preScore1 = 50;
+                        } else {
+                            this.fenetre.getNotesOnScreen()[i].preScore2 = 50;
+                        }
                     }
                 }
             }
-        } else {
-            this.fenetre.getNotesOnScreen()[i].score1 = 0;
         }
     }
 
-    public void sliderStart(int score, int i){
-        this.fenetre.getNotesOnScreen()[i].score1 = score;
+    public void sliderStart(int score, int i, int player){
+        if(player == 1){
+            this.fenetre.getNotesOnScreen()[i].preScore1 = score;
+        } else {
+            this.fenetre.getNotesOnScreen()[i].preScore2 = score;
+        }
     }
 
     public void sliderEnd(int player, int score, int i){
         if(this.fenetre.getNotesOnScreen()[i].x1 != 1000) {
             int scoreFinal = 0;
-            if ((this.fenetre.getNotesOnScreen()[i].score1 == 0) || (score == 0)) {
-                scoreFinal = 50;
-            }
-            if ((this.fenetre.getNotesOnScreen()[i].score1 == 0) && (score == 0)) {
-                scoreFinal = 0;
-            }
-            if ((this.fenetre.getNotesOnScreen()[i].score1 != 0) && (score != 0)) {
-                scoreFinal = 300;
-            }
             if (player == 1) {
+                if ((this.fenetre.getNotesOnScreen()[i].preScore1 <= 50) || (score <= 50)) {
+                    scoreFinal = 50;
+                }
+                if ((this.fenetre.getNotesOnScreen()[i].preScore1 >= 100) && (score >= 100)) {
+                    scoreFinal = 300;
+                }
+                if ((this.fenetre.getNotesOnScreen()[i].preScore1 == 100) && (score == 100)) {
+                    scoreFinal = 100;
+                }
                 this.fenetre.getNotesOnScreen()[i].x1 = 1000;
                 this.fenetre.getNotesOnScreen()[i].hitByP1 = true;
                 this.score1.addNote(scoreFinal);
+                this.fenetre.addScoreEffect(this.fenetre.getNotesOnScreen()[i].colonne, player, scoreFinal);
             }
+        }
+        if(this.fenetre.getNotesOnScreen()[i].x2 != 1000) {
+            int scoreFinal = 0;
             if (player == 2) {
+                if ((this.fenetre.getNotesOnScreen()[i].preScore2 <= 50) || (score <= 50)) {
+                    scoreFinal = 50;
+                }
+                if ((this.fenetre.getNotesOnScreen()[i].preScore2 >= 100) && (score >= 100)) {
+                    scoreFinal = 300;
+                }
+                if ((this.fenetre.getNotesOnScreen()[i].preScore2 == 100) && (score == 100)) {
+                    scoreFinal = 100;
+                }
                 this.fenetre.getNotesOnScreen()[i].x2 = 1000;
                 this.fenetre.getNotesOnScreen()[i].hitByP2 = true;
                 this.score2.addNote(scoreFinal);
+                this.fenetre.addScoreEffect(this.fenetre.getNotesOnScreen()[i].colonne, player, scoreFinal);
             }
-            this.fenetre.addScoreEffect(this.fenetre.getNotesOnScreen()[i].colonne, player, scoreFinal);
         }
     }
 
