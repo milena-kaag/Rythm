@@ -6,17 +6,32 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.border.EmptyBorder;
 
 public class Bouton extends JButton {
     private String name;
     private Image img;
-    public Bouton(String str){
+    public Bouton(String str, String pathName){
         this.name =str;
         try {
-            img = ImageIO.read(new File("Ressources/fondBouton.jpg")); //bloc try/catch gère les exceptions
+            img = ImageIO.read(new File(pathName)); //bloc try/catch gère les exceptions
         } catch (IOException e){
             e.printStackTrace();
         }
+
+    }
+    public Bouton(String str, String pathName, Dimension dim){
+        this.name =str;
+        try {
+            img = ImageIO.read(new File(pathName)); //bloc try/catch gère les exceptions
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+        this.setPreferredSize(dim);
+
+
+
+
     }
 
     public void paintComponent(Graphics g) { //personnalisation du design

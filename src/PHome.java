@@ -5,8 +5,8 @@ import javax.imageio.ImageIO;
 
 public class PHome extends JPanel {
 
-    private Bouton bouton = new Bouton("Helloooooo");
-    private Bouton bouton2 = new Bouton("Bon");
+    public Bouton bouton = new Bouton("Jouer", "Ressources/fondBouton.jpg");
+    public Bouton bouton2 = new Bouton("Test","Ressources/fondBouton.jpg");
     GridLayout g1 = new GridLayout(10, 3, 8, 8); //Objet qui permettra d'arranger les objets (boutons) dans l'espace de la fenêtre
 
     public PHome(){
