@@ -1,6 +1,6 @@
 //bandeau nom map 70 px, reste 572
-//case 70*70
-//77, 44
+//case 90*90
+//92, 5
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -31,7 +31,7 @@ public class PMap extends JPanel {
 
     PMap(){
         try{
-            back = ImageIO.read(new File("Ressources/SettingBackBW.jpg"));
+            back = ImageIO.read(new File("Ressources/SettingBackStarsBW.jpg"));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -54,17 +54,23 @@ public class PMap extends JPanel {
 
     public class Center extends JPanel{
         Center(){
-            GridLayout g1 = new GridLayout(5,6,64,31);
+            GridLayout g1 = new GridLayout(3,6,1,72);
             this.setLayout(g1);
             this.add(firstMap);
             this.add(oddsAndEnds);
-            this.add(himeHime);
             this.add(sans);
-            this.add(sasageyo);
-            for (int i=0;i<25;i++){
+            this.add(Box.createGlue());
+            this.add(Box.createGlue());
+            this.add(Box.createGlue());
+            this.add(himeHime);
+            for (int i=0;i<5;i++){
                 this.add(Box.createGlue());
             }
-            this.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            this.add(sasageyo);
+            for (int i=0;i<5;i++){
+                this.add(Box.createGlue());
+            }
+            this.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
 
         }
 
