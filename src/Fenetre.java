@@ -5,25 +5,24 @@ import javax.swing.*;
 public class Fenetre extends JFrame {
 
     Panneau jeSuislePan = null;
+    ImageIcon img = new ImageIcon("Ressources/icon.png");
+
 
     public Fenetre(){
-        this.setTitle("Jeu vidéaaaaaal");
+        this.setTitle("Sweet Girls - Rhythm Project");
         this.setSize(816,642);
         this.setLocationRelativeTo(null); //Fenêtre se place au milieu de l'écran
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Le programme s'arrête quand le fenêtre est fermée
         this.setResizable(false); // On ne peut pas changer la taille de la fenêtre. Sinon problèmes d'affichage
         this.setAlwaysOnTop(true); // La fenêtre sera toujours au premier plan
-
+        this.setVisible(true);
+        this.setIconImage(img.getImage());
     }
-
 
     public void setGameScreen (String BGfilename, int sliderLength) { // Set l'écran de jeu au début d'une map
         jeSuislePan = new Panneau(BGfilename); // Panneau appartenant à la fenêtre, c'est lui qui affiche les graphismes
         jeSuislePan.sliderLength = sliderLength;
-        jeSuislePan.repaint();
-        this.repaint();
         this.setContentPane(jeSuislePan);
-
         this.setVisible(true);
     }
 
@@ -53,14 +52,13 @@ public class Fenetre extends JFrame {
     }
 
     public void spawnNote (int colonne, int note, int duree) { // Place les nouvelles notes au bon endroit
-
         jeSuislePan.notesOnScreen[note].colonne = colonne;
         jeSuislePan.notesOnScreen[note].x1 = 120+60*(colonne);
         jeSuislePan.notesOnScreen[note].x2 = 440+60*(colonne);
         jeSuislePan.notesOnScreen[note].y = -55;
         jeSuislePan.notesOnScreen[note].duree = duree;
-        jeSuislePan.notesOnScreen[note].dureeRestante = duree;
-        jeSuislePan.notesOnScreen[note].score1 = 0;
+        jeSuislePan.notesOnScreen[note].preScore1 = 0;
+        jeSuislePan.notesOnScreen[note].preScore2 = 0;
         jeSuislePan.notesOnScreen[note].hitByP1 = false;
         jeSuislePan.notesOnScreen[note].hitByP2 = false;
     }

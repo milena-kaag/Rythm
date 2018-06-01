@@ -6,7 +6,7 @@ import javax.imageio.ImageIO;
 public class PHome extends JPanel {
 
     public Bouton bouton = new Bouton("Jouer", "Ressources/fondBouton.jpg");
-    public Bouton bouton2 = new Bouton("Test","Ressources/fondBouton.jpg");
+    public Bouton bouton2 = new Bouton("Informations","Ressources/fondBouton.jpg");
     GridLayout g1 = new GridLayout(10, 3, 8, 8); //Objet qui permettra d'arranger les objets (boutons) dans l'espace de la fenêtre
 
     public PHome(){
@@ -34,6 +34,26 @@ public class PHome extends JPanel {
         }
 
 
-        g.drawImage(img, 0, 0, this); //L'image est imprimée
+        g.drawImage(img, 0, 0,this.getWidth(),this.getHeight(),this); //L'image est imprimée
+    }
+
+    public class PInfos extends JPanel{
+        Image img = null;
+        Bouton back = new Bouton("Retour", "Ressources/fondBouton.jpg");
+        PInfos(){
+            try {
+                img = ImageIO.read(new File("Ressources/homeFontSelect.jpg"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.setLayout(g1);
+            for (int i=0;i<29;i++){
+                this.add(Box.createGlue());
+            }
+            this.add(back);
+        }
+        public void paintComponent(Graphics g){
+            g.drawImage(img,0,0,this.getWidth(),this.getHeight(),this);
+        }
     }
 }

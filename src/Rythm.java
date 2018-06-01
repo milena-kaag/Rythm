@@ -11,11 +11,17 @@ public class Rythm {
     public static volatile boolean launchTheGame = false;
     public static volatile int mapType;
     public static Map map = new Map();
+    public static Fenetre win = null;
+
 
 
     public static void main(String[] args) {
 
         start = new MyListener();
+        win = new Fenetre();
+        win.setVisible(false);
+
+
 
         Clip musique = null;
         try {
@@ -26,22 +32,44 @@ public class Rythm {
             exc.printStackTrace(System.out);
         }
 
-        while (launchTheGame == false)
-        {
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        while (true)
+            if(launchTheGame == false) {
+                {
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            } else{
+                start.theWindow.setVisible(false);
+                //SongClass mappy = map.listMap[mapType];
+                win.setVisible(true);
+                MyListener.launchMap(map.listMap[mapType],win,start.score1,start.score2);
+                launchTheGame=false;
+                start.scores = start.new PScore();
+                start.cards.add(start.scores, start.listContent[3]);
+                start.c1.show(start.cards,start.listContent[3]);
+                start.theWindow.setVisible(true);
+                win.setVisible(false);
             }
-        }
 
-        start.c1.show(start.cards, start.listContent[1]);
+        //start.c1.show(start.cards, start.listContent[1]);
 
-        Score score1 = new Score(1);
-        Score score2 = new Score(2);
-        Fenetre win = new Fenetre();
-        MyListener.launchMap(map.chichiWoMoge,win,score1,score2);
-        start.theWindow.setVisible(false);
+
+//        start.theWindow.setVisible(false);
+//        //SongClass mappy = map.listMap[mapType];
+//        win.setVisible(true);
+//        MyListener.launchMap(map.listMap[mapType],win,start.score1,start.score2);
+//        launchTheGame=false;
+//        start.scores = start.new PScore();
+//        start.cards.add(start.scores, start.listContent[3]);
+//        start.c1.show(start.cards,start.listContent[3]);
+//        start.theWindow.setVisible(true);
+//        win.setVisible(false);
+//        win = null;
+
+
 
 
 

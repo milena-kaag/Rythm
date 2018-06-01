@@ -9,6 +9,13 @@ public class Score {
         this.player = player;
     }
 
+    public void getToInit(){
+        this.points =0;
+        this.combos =0;
+        this.avancement =0;
+        this.acc =0;
+    }
+
     public void addNote(int value){
         this.notes[this.avancement] = value;
         this.avancement++;
@@ -20,6 +27,32 @@ public class Score {
             s += this.notes[i];
         }
         this.acc = (double)(s)/(double)(3*this.avancement);
+    }
+
+    public void calculComboMax(){
+        int maxTemp = 0;
+        int max = 0;
+        for(int i=0; i<this.avancement; i++){
+            if(this.notes[i] != 0){
+                maxTemp++;
+            } else {
+                if(maxTemp > max){
+                    max = maxTemp;
+                }
+                maxTemp = 0;
+            }
+        }
+        if(max == 0){
+            this.combos = maxTemp;
+        } else {
+            this.combos = max;
+        }
+    }
+
+    public void calculScore(){
+        for (int i=0;i<notes.length;i++){
+            points = points+notes[i];
+        }
     }
 
 

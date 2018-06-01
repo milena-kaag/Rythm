@@ -155,4 +155,3 @@ public class PChara extends JPanel{
     }
 
 }
-

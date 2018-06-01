@@ -13,13 +13,16 @@ public class PMap extends JPanel {
 
     Image back = null;
     public CardLayout cMap = new CardLayout();
-    public String[] listMap ={"BLANC","CHICHI","ODDS","HIME","SANS","SASAGEYO"};
+    public String[] listMap ={"BLANC","CHICHI","ODDS","HIME","SANS","SASAGEYO","BONE","ASGORE","TRUCALLEMAND"};
     public JPanel cardsMap = new JPanel(cMap);
     Bouton firstMap = new Bouton("","Ressources/MinChichiWoMoge.png");
     Bouton oddsAndEnds = new Bouton("","Ressources/MiniOddsAndEnds.png");
     Bouton himeHime = new Bouton("","Ressources/MiniHimeHime.png");
     Bouton sans = new Bouton("","Ressources/MiniSans.png");
     Bouton sasageyo = new Bouton("","Ressources/MiniSasageyo.png");
+    Bouton bonetrousle = new Bouton ("","Ressources/MiniBonetrousle.png");
+    Bouton asgore = new Bouton("","Ressources/MiniAsgore.png");
+    Bouton bergentruckung = new Bouton("","Ressources/MiniAsgore.png");
 
 
     TitreMap tFirstMap = new TitreMap("Chichi Wo Moge","Hiroki Takahashi");
@@ -28,6 +31,9 @@ public class PMap extends JPanel {
     TitreMap tHimeHime = new TitreMap("Koi no Hime Pettanko","Tamura Yukari");
     TitreMap tSans = new TitreMap("Sans","Toby Fox");
     TitreMap tSasageyo = new TitreMap("Shinzou wo Sasageyo !","Linked Horizon");
+    TitreMap tBonetrousle = new TitreMap("Bonetrousle","Toby Fox");
+    TitreMap tAsgore = new TitreMap("Asgore","Toby Fox");
+    TitreMap tBergentruckung = new TitreMap("Bergentrückung","Toby Fox");
 
     PMap(){
         try{
@@ -47,6 +53,9 @@ public class PMap extends JPanel {
         cardsMap.add(tHimeHime,listMap[3]);
         cardsMap.add(tSans,listMap[4]);
         cardsMap.add(tSasageyo,listMap[5]);
+        cardsMap.add(tBonetrousle,listMap[6]);
+        cardsMap.add(tAsgore,listMap[7]);
+        cardsMap.add(tBergentruckung,listMap[8]);
 
         this.add(cardsMap,BorderLayout.NORTH);
 
@@ -54,20 +63,21 @@ public class PMap extends JPanel {
 
     public class Center extends JPanel{
         Center(){
-            GridLayout g1 = new GridLayout(3,6,1,72);
+            GridLayout g1 = new GridLayout(3,6,10,72);
             this.setLayout(g1);
             this.add(firstMap);
             this.add(oddsAndEnds);
             this.add(sans);
-            this.add(Box.createGlue());
-            this.add(Box.createGlue());
+            this.add(bonetrousle);
+            this.add(bergentruckung);
             this.add(Box.createGlue());
             this.add(himeHime);
             for (int i=0;i<5;i++){
                 this.add(Box.createGlue());
             }
             this.add(sasageyo);
-            for (int i=0;i<5;i++){
+            this.add(asgore);
+            for (int i=0;i<4;i++){
                 this.add(Box.createGlue());
             }
             this.setBorder(BorderFactory.createEmptyBorder(10,0,10,0));
