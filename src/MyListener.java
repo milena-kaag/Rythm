@@ -12,7 +12,7 @@ import java.io.IOException;
 public class MyListener   {
     //La classe la plus englobante du programme !
     CardLayout c1 = new CardLayout();
-    String[] listContent = {"HOME", "CHARA","MAP","SCORE","INFOS"};//Liste qui permet de s'y retrouver dans les indices du cardlayout
+    String[] listContent = {"HOME", "CHARA","MAP","SCORE","INFOS","WINNER"};//Liste qui permet de s'y retrouver dans les indices du cardlayout
 
     JPanel cards = new JPanel(c1); //Panneau qui regroupe l'ensemble des panneaux
     PHome home = new PHome(); //menu d'accueil
@@ -397,6 +397,8 @@ public class MyListener   {
         Clip song;
         Clip applause;
         Clip sectionPass;
+        PJwins winScreen;
+
 
 
         PScore (){
@@ -441,12 +443,13 @@ public class MyListener   {
                 next.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        c1.show(cards,listContent[2]);
+
                         scores=null;
                         score1.getToInit();
                         score2.getToInit();
                         applause.stop();
                         song.stop();
+                        c1.show(cards,listContent[2]);
                     }
                 });
 
@@ -454,9 +457,17 @@ public class MyListener   {
                 next.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        applause.stop();
+                        song.stop();
+                        if(joueurs[0].pv>joueurs[1].pv){
+                            winScreen = new PJwins(1);
+                        }else{
+                            winScreen = new PJwins(2);
+                        }
+                        cards.add(winScreen,listContent[5]);
+                        c1.show(cards,listContent[5]);
+
                         try {
-                            applause.stop();
-                            song.stop();
                             sectionPass = AudioSystem.getClip();
                             sectionPass.open(AudioSystem.getAudioInputStream(new File("Ressources/sectionpass.wav")));
                             sectionPass.start();
@@ -464,13 +475,20 @@ public class MyListener   {
                             exc.printStackTrace(System.out);
                         }
 
-                        try {
-                            Thread.sleep(5000);
-                        } catch (InterruptedException f) {
-                            f.printStackTrace();
-                        }
-                        System.exit(0);
-                        scores = null;
+                        Thread t = new Thread(){
+                            public void run(){
+                                try {
+                                    Thread.sleep(5000);
+                                } catch (InterruptedException f) {
+                                    f.printStackTrace();
+                                }
+                                System.exit(0);
+                                scores = null;
+                            }
+                        };
+                        t.start();
+
+
                     }
                 });
             }
@@ -502,14 +520,37 @@ public class MyListener   {
             g.drawString(String.valueOf(score2.degats),500,445);
 
             if (joueurs[0].pv>0) {
-                g.drawImage(life, 92, 517, (joueurs[0].pv * 200) / joueurs[0].maxPv, 22, this);
+                g.drawImage(life, 92, 518, (joueurs[0].pv * 200) / joueurs[0].maxPv, 22, this);
             }
             if(joueurs[1].pv>0){
-                g.drawImage(life,498,517,(joueurs[1].pv*200)/joueurs[1].maxPv,22,this);
+                g.drawImage(life,497,518,(joueurs[1].pv*200)/joueurs[1].maxPv,22,this);
 
             }
 
         }
 
+        public class PJwins extends JPanel{
+
+            Image winner;
+            PJwins(int vainqueur){
+                if (vainqueur ==1){
+                    try{
+                        winner = ImageIO.read(new File("Ressources/J1Wins.png"));
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }else{
+                    try{
+                        winner = ImageIO.read(new File("Ressources/J2Wins.png"));
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+
+            }
+            public void paintComponent(Graphics g){
+                g.drawImage(winner,0,0,this.getWidth(),this.getHeight(),this);
+            }
+        }
     }
 }

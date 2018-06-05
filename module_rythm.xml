@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_rythm" default="compile.module.rythm">
+  <dirname property="module.rythm.basedir" file="${ant.file.module_rythm}"/>
+  
+  <property name="module.jdk.home.rythm" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.rythm" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.rythm" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.rythm" value="-encoding UTF-8 -source 9 -target 9 ${compiler.args}"/>
+  
+  <property name="rythm.output.dir" value="${module.rythm.basedir}/out/production/Rythm"/>
+  <property name="rythm.testoutput.dir" value="${module.rythm.basedir}/out/test/Rythm"/>
+  
+  <path id="rythm.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="rythm.module.production.classpath">
+    <path refid="${module.jdk.classpath.rythm}"/>
+  </path>
+  
+  <path id="rythm.runtime.production.module.classpath">
+    <pathelement location="${rythm.output.dir}"/>
+  </path>
+  
+  <path id="rythm.module.classpath">
+    <path refid="${module.jdk.classpath.rythm}"/>
+    <pathelement location="${rythm.output.dir}"/>
+  </path>
+  
+  <path id="rythm.runtime.module.classpath">
+    <pathelement location="${rythm.testoutput.dir}"/>
+    <pathelement location="${rythm.output.dir}"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.rythm">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.rythm">
+    <patternset refid="excluded.from.module.rythm"/>
+  </patternset>
+  
+  <path id="rythm.module.sourcepath">
+    <dirset dir="${module.rythm.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.rythm" depends="compile.module.rythm.production,compile.module.rythm.tests" description="Compile module Rythm"/>
+  
+  <target name="compile.module.rythm.production" depends="register.custom.compilers" description="Compile module Rythm; production classes">
+    <mkdir dir="${rythm.output.dir}"/>
+    <javac2 destdir="${rythm.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.rythm}/javac">
+      <compilerarg line="${compiler.args.rythm}"/>
+      <bootclasspath refid="rythm.module.bootclasspath"/>
+      <classpath refid="rythm.module.production.classpath"/>
+      <src refid="rythm.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.rythm"/>
+    </javac2>
+    
+    <copy todir="${rythm.output.dir}">
+      <fileset dir="${module.rythm.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.rythm.tests" depends="register.custom.compilers,compile.module.rythm.production" description="compile module Rythm; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.rythm" description="cleanup module">
+    <delete dir="${rythm.output.dir}"/>
+    <delete dir="${rythm.testoutput.dir}"/>
+  </target>
+</project>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Rythm:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Rythm_jar</output-path>
+    <root id="archive" name="Rythm.jar">
+      <element id="module-output" name="Rythm" />
+    </root>
+  </artifact>
+</component>
