@@ -1,7 +1,9 @@
 
 public class Note {
 
-    int colonne, x1, x2, y, duree, preScore1, preScore2;
+    int colonne, x1, x2, y, duree, // coordonnées et durée de la note (0 pour une note simple ou cercle, 1 ou plus pour un slider)
+            preScore1, preScore2; // Scores correspondant au moment ou l'utilisateur appuie sur la touche au début d'un slider, stocké pour déterminer le score final de la note
+    // Variables indiquant si la note a été cliquée par le joueur 1 ou 2
     boolean hitByP1 = true;
     boolean hitByP2 = true;
 

@@ -1,7 +1,7 @@
 
 public class SongClass {
 
-    int songposition, diviseur, offset, vitesseDefilement;
+    int diviseur, offset, vitesseDefilement;
     double bpm, beatDuration, duree;
     String musicFileName, BGfileName;
     int[][][] beats;

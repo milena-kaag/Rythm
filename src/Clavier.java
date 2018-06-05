@@ -56,7 +56,7 @@ public class Clavier implements KeyListener {
 
     public void keyTyped(KeyEvent e){}
 
-    public void keyReleased(KeyEvent e){
+    public void keyReleased(KeyEvent e){ // Ce qu'il se passe quand on relache une touche du clavier
         if(e.getKeyCode() == KeyEvent.VK_W) {
             keyReleaseManager(0);
         }
@@ -83,7 +83,7 @@ public class Clavier implements KeyListener {
         }
     }
 
-    public void keyPressManager(int colonne){
+    public void keyPressManager(int colonne){ // Gere la pression d'une touche en fonction de la colonne associee
         if(this.fenetre.jeSuislePan.keysPressed[colonne] < 7){
             accCheck(colonne%4, 1 + colonne/4);
             hitsound.stop();
@@ -93,7 +93,7 @@ public class Clavier implements KeyListener {
         this.fenetre.gameKeyboard(colonne);
     }
 
-    public int keyReleaseManager(int colonne){
+    public int keyReleaseManager(int colonne){ // Gere le relachement d'une touche en fonction de la colonne associee
         for(int i=0; i<this.fenetre.getNotesOnScreen().length; i++){
             if((this.fenetre.getNotesOnScreen()[i].colonne == colonne%4) && (this.fenetre.getNotesOnScreen()[i].duree != 0)) {
                 if (colonne < 4) {
@@ -108,7 +108,7 @@ public class Clavier implements KeyListener {
         return 0;
     }
 
-    public int accCheck (int colonne, int player){
+    public int accCheck (int colonne, int player){ // Calcule le score d'un cercle en fonction du timing. Du meilleur au moins bon : 300, 100, 50, 0
         for(int i=0; i<this.fenetre.getNotesOnScreen().length; i++){
             if((this.fenetre.getNotesOnScreen()[i].colonne == colonne)&&(this.fenetre.getNotesOnScreen()[i].y < 540 + palier0)&&(this.fenetre.getNotesOnScreen()[i].y > 540 - palier0)){
                 if((this.fenetre.getNotesOnScreen()[i].y-540 <= palier300)&&(this.fenetre.getNotesOnScreen()[i].y-540 >= -palier300)){
@@ -159,7 +159,7 @@ public class Clavier implements KeyListener {
         return 0;
     }
 
-    public void circle(int player, int score, int i){
+    public void circle(int player, int score, int i){ // Gere la suppression d'une note cliquee de l'ecran et le lien avec l'objet score
         if((player == 1)&&(this.fenetre.getNotesOnScreen()[i].x1 != 1000)) {
             this.fenetre.getNotesOnScreen()[i].x1 = 1000;
             this.fenetre.getNotesOnScreen()[i].hitByP1 = true;
@@ -172,7 +172,7 @@ public class Clavier implements KeyListener {
         }
     }
 
-    public void accCheckSlider(int player, int i){
+    public void accCheckSlider(int player, int i){ // Verifie si on est au debut ou a la fin d'un slider
         if(((player == 1)&&(!this.fenetre.getNotesOnScreen()[i].hitByP1)) || ((player == 2)&&(!this.fenetre.getNotesOnScreen()[i].hitByP2))) {
             if ((this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 <= palier300) && (this.fenetre.getNotesOnScreen()[i].y - this.fenetre.getNotesOnScreen()[i].duree * this.fenetre.getSliderLength() - 540 >= -palier300)) {
                 sliderEnd(player, 300, i);
@@ -203,7 +203,7 @@ public class Clavier implements KeyListener {
         }
     }
 
-    public void sliderStart(int score, int i, int player){
+    public void sliderStart(int score, int i, int player){ // Gere le clic de debut d'un slider
         if(player == 1){
             this.fenetre.getNotesOnScreen()[i].preScore1 = score;
         } else {
@@ -211,7 +211,7 @@ public class Clavier implements KeyListener {
         }
     }
 
-    public void sliderEnd(int player, int score, int i){
+    public void sliderEnd(int player, int score, int i){ // Gere la suppression d'un slider termine de l'ecran et le lien avec l'objet score
         if(this.fenetre.getNotesOnScreen()[i].x1 != 1000) {
             int scoreFinal = 0;
             if (player == 1) {

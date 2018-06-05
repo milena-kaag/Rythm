@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class Panneau extends JPanel {
+    // Création des differentes images dont on a besoin
     Image BG = null;
     Image note = null;
     Image slider = null;
@@ -22,7 +23,8 @@ public class Panneau extends JPanel {
     Note[] notesOnScreen = new Note[20]; // Tableau regroupant toutes les notes affichées à l'écran à un moment donné (attention max 20, a augmenter si nécessaire)
     int[] keysPressed = new int[8]; // Les touches appuyées par les joueurs à un moment donné et un peu après
     int[][] scoreEffets = new int[8][2]; // Les effets de couleur quand une note est cliquée, en fonction de la valeur en points
-    int keyX, sliderLength;
+    int keyX, // Variable stockant l'abscisse d'une colonne pour positionner un effet visuel quand un joueur appuie sur une touche
+            sliderLength; // indique la durée d'un temps pour cette map
 
     Panneau(String musicBGfile){
         try { // On charge les images nécessaires au jeu
@@ -109,12 +111,12 @@ public class Panneau extends JPanel {
             }
         }
         for(int i=0; i<20; i++) { // On affiche les notes à l'écran
-            if(this.notesOnScreen[i].duree == 0) {
+            if(this.notesOnScreen[i].duree == 0) { // Cercles
                 if(this.notesOnScreen[i].y < 650) {
                     g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y, 59, 30, this);
                     g.drawImage(note, this.notesOnScreen[i].x2, this.notesOnScreen[i].y, 59, 30, this);
                 }
-            } else {
+            } else { // Sliders
                 g.drawImage(slider, this.notesOnScreen[i].x1 + 10, this.notesOnScreen[i].y + 30 - this.notesOnScreen[i].duree*sliderLength, 39, this.notesOnScreen[i].duree*sliderLength, this);
                 g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y - this.notesOnScreen[i].duree*sliderLength, 59, 30, this);
                 g.drawImage(note, this.notesOnScreen[i].x1, this.notesOnScreen[i].y, 59, 30, this);
@@ -130,6 +132,7 @@ public class Panneau extends JPanel {
     public void updateNotes(int vitesse, Score score1, Score score2){ // Méthode qui actualise l'ordonnée des notes entre 2 rafraîchissements
         for(int i=0; i<20; i++){
             this.notesOnScreen[i].y += vitesse;
+            // Verifie si une note est trop loin pour etre cliquee
             if((!this.notesOnScreen[i].hitByP1)&&(this.notesOnScreen[i].colonne != -1)&&(this.notesOnScreen[i].x1 != 1000)&&  (((this.notesOnScreen[i].duree == 0)&&(this.notesOnScreen[i].y > 620)) || ((this.notesOnScreen[i].duree != 0)&&(this.notesOnScreen[i].y > 620 + this.notesOnScreen[i].duree*sliderLength)))){
                 if((!this.notesOnScreen[i].hitByP1)&&(this.notesOnScreen[i].preScore1 != 0)){
                     score1.addNote(50);

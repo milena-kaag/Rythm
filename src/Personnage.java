@@ -61,8 +61,8 @@ public class Personnage {
 	}
     
     public void gestionPv (Personnage pers) { //Calcul des attaques de la map
-        pers.pv = (int) (pers.pv - (this.score * 0.002 * this.precision * 5000 + 0.1 * this.cb * this.combo)/(5000 + pers.moe));
-        this.pv = (int) (this.pv - (pers.score * 0.002 * pers.precision * 5000 + 0.1 * pers.cb * pers.combo)/(5000 + this.moe));
+        pers.pv = (int) (pers.pv - 0.5 * (10 * this.score * this.precision + 0.1 * this.cb * this.combo)/(5000 + pers.moe));
+        this.pv = (int) (this.pv - 0.5 * (10 * pers.score * pers.precision + 0.1 * pers.cb * pers.combo)/(5000 + this.moe));
 
     }
     

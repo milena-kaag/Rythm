@@ -25,15 +25,15 @@ public class PMap extends JPanel {
     Bouton bergentruckung = new Bouton("","Ressources/MiniAsgore.png");
 
 
-    TitreMap tFirstMap = new TitreMap("Chichi Wo Moge","Hiroki Takahashi ~ 1:16");
+    TitreMap tFirstMap = new TitreMap("Chichi Wo Moge","Hiroki Takahashi ~ 1:10");
     TitreMap tWhite = new TitreMap("Select a Map","");
-    TitreMap tOddsAndEnds = new TitreMap("Odds and Ends","ryo(supercell) feat. Hatsune Miku ~ 1:35");
-    TitreMap tHimeHime = new TitreMap("Koi no Hime Pettanko","Tamura Yukari ~ 1:37");
-    TitreMap tSans = new TitreMap("Sans","Toby Fox ~ 0:53");
-    TitreMap tSasageyo = new TitreMap("Shinzou wo Sasageyo !","Linked Horizon ~ 1:31");
-    TitreMap tBonetrousle = new TitreMap("Bonetrousle","Toby Fox ~ 1:00");
-    TitreMap tAsgore = new TitreMap("Asgore","Toby Fox ~ 3:01");
-    TitreMap tBergentruckung = new TitreMap("Bergentrückung","Toby Fox ~ 0:21");
+    TitreMap tOddsAndEnds = new TitreMap("Odds and Ends","ryo(supercell) feat. Hatsune Miku ~ 1:30");
+    TitreMap tHimeHime = new TitreMap("Koi no Hime Pettanko","Tamura Yukari ~ 1:33");
+    TitreMap tSans = new TitreMap("Sans","Toby Fox ~ 0:49");
+    TitreMap tSasageyo = new TitreMap("Shinzou wo Sasageyo !","Linked Horizon ~ 1:29");
+    TitreMap tBonetrousle = new TitreMap("Bonetrousle","Toby Fox ~ 0:59");
+    TitreMap tAsgore = new TitreMap("Asgore","Toby Fox ~ 2:39");
+    TitreMap tBergentruckung = new TitreMap("Bergentrückung","Toby Fox ~ 0:18");
 
     PMap(){
         try{
