@@ -9,7 +9,7 @@ public class PHome extends JPanel {
     public Bouton bouton2 = new Bouton("Informations","Ressources/fondBouton.jpg");
     GridLayout g1 = new GridLayout(10, 3, 8, 8); //Objet qui permettra d'arranger les objets (boutons) dans l'espace de la fenêtre
 
-    public PHome(){
+    public PHome(){ //Premier panneau affiché dans le jeu
         this.setLayout(g1);
         for (int i = 0; i < 20; i++) {
             this.add(Box.createGlue());//Objet invisible qui permet de remplir le layout jusqu'à la case d'intéret
@@ -18,8 +18,7 @@ public class PHome extends JPanel {
         for (int i = 0; i < 5; i++) {
             this.add(Box.createGlue());
         }
-        this.add(bouton2);
-        this.setVisible(true);
+        this.add(bouton2); //Bouton 2 dans la 27ème case
     }
 
     public void paintComponent(Graphics g) {
@@ -37,9 +36,9 @@ public class PHome extends JPanel {
         g.drawImage(img, 0, 0,this.getWidth(),this.getHeight(),this); //L'image est imprimée
     }
 
-    public class PInfos extends JPanel{
+    public class PInfos extends JPanel{ //Simple panneau contenant les informations sur le jeu
         Image img = null;
-        Bouton back = new Bouton("Retour", "Ressources/fondBouton.jpg");
+        Bouton back = new Bouton("Retour", "Ressources/fondBouton.jpg"); //Bouton permetant de revenir au PHome
         PInfos(){
             try {
                 img = ImageIO.read(new File("Ressources/homeFontSelect.jpg"));

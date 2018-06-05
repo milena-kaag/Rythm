@@ -1,9 +1,10 @@
 
 public class Score {
 
-    int points, combos, avancement, player;
+    int points, combos, avancement, player, degats;
     double acc;
     int[] notes = new int[2000];
+
 
     public Score(int player){
         this.player = player;
@@ -14,6 +15,7 @@ public class Score {
         this.combos =0;
         this.avancement =0;
         this.acc =0;
+        this.degats =0;
     }
 
     public void addNote(int value){
@@ -21,6 +23,9 @@ public class Score {
         this.avancement++;
     }
 
+    public void calculDegats(Personnage loli, Personnage foe){
+        this.degats =(int) (points * 0.002 * acc * 5000 + 0.1 * combos * loli.combo)/(5000 + foe.moe);
+    }
     public void calculAcc(){
         int s = 0;
         for(int i = 0; i < this.avancement; i++){

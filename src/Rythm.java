@@ -4,14 +4,13 @@
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
-import java.util.Scanner;
 
 public class Rythm {
-    public static MyListener start;
-    public static volatile boolean launchTheGame = false;
-    public static volatile int mapType;
-    public static Map map = new Map();
-    public static Fenetre win = null;
+    public static MyListener start; //Classe principale du jeu qui gère la succession des panneaux
+    public static boolean launchTheGame = false;
+    public static int mapType;
+    private static Map map = new Map(); //Création des différentes maps
+    private static Fenetre win = null; //Fenêtre qui sert au jeu de rythme
 
 
 
@@ -22,8 +21,7 @@ public class Rythm {
         win.setVisible(false);
 
 
-
-        Clip musique = null;
+        Clip musique;
         try {
             musique = AudioSystem.getClip();
             musique.open(AudioSystem.getAudioInputStream(new File("Ressources/welcome.wav")));
@@ -32,8 +30,9 @@ public class Rythm {
             exc.printStackTrace(System.out);
         }
 
-        while (true)
-            if(launchTheGame == false) {
+
+        while (true) { //Boucle du jeu
+            if (launchTheGame == false) {
                 {
                     try {
                         Thread.sleep(500);
@@ -41,38 +40,17 @@ public class Rythm {
                         e.printStackTrace();
                     }
                 }
-            } else{
+            } else {
                 start.theWindow.setVisible(false);
-                //SongClass mappy = map.listMap[mapType];
                 win.setVisible(true);
-                MyListener.launchMap(map.listMap[mapType],win,start.score1,start.score2);
-                launchTheGame=false;
-                start.scores = start.new PScore();
+                MyListener.launchMap(map.listMap[mapType], win, start.score1, start.score2); //Lance la map
+                launchTheGame = false; //Fin de la phase de jeu
+                start.scores = start.new PScore(); //Phase de scores
                 start.cards.add(start.scores, start.listContent[3]);
-                start.c1.show(start.cards,start.listContent[3]);
+                start.c1.show(start.cards, start.listContent[3]);
                 start.theWindow.setVisible(true);
                 win.setVisible(false);
             }
-
-        //start.c1.show(start.cards, start.listContent[1]);
-
-
-//        start.theWindow.setVisible(false);
-//        //SongClass mappy = map.listMap[mapType];
-//        win.setVisible(true);
-//        MyListener.launchMap(map.listMap[mapType],win,start.score1,start.score2);
-//        launchTheGame=false;
-//        start.scores = start.new PScore();
-//        start.cards.add(start.scores, start.listContent[3]);
-//        start.c1.show(start.cards,start.listContent[3]);
-//        start.theWindow.setVisible(true);
-//        win.setVisible(false);
-//        win = null;
-
-
-
-
-
         }
-
     }
+}

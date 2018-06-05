@@ -3,12 +3,11 @@ import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.CardLayout;
 import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 public class MyListener   {
     //La classe la plus englobante du programme !
@@ -394,9 +393,29 @@ public class MyListener   {
 
         GridLayout g1 = new GridLayout(12, 3, 8, 8);
         Bouton next = new Bouton ("Suivant","Ressources/fondBoutonR.jpg");
+        Image life;
+        Clip song;
+        Clip applause;
+        Clip sectionPass;
 
 
         PScore (){
+            try {
+                applause = AudioSystem.getClip();
+                applause.open(AudioSystem.getAudioInputStream(new File("Ressources/Applause sound effect.wav")));
+                applause.start();
+            } catch (Exception exc) {
+                exc.printStackTrace(System.out);
+            }
+
+
+            try {
+                song = AudioSystem.getClip();
+                song.open(AudioSystem.getAudioInputStream(new File("Ressources/Victory Theme.wav")));
+                song.start();
+            } catch (Exception exc) {
+                exc.printStackTrace(System.out);
+            }
             this.setLayout(g1);
             score1.calculAcc();
             score1.calculScore();
@@ -404,9 +423,17 @@ public class MyListener   {
             score2.calculAcc();
             score2.calculScore();
             score2.calculComboMax();
-            joueurs[0].finPartie(score1.points,score1.acc,score1.combos);
-            joueurs[1].finPartie(score2.points,score2.acc,score2.combos);
+            score1.calculDegats(joueurs[0],joueurs[1]);
+            score2.calculDegats(joueurs[1],joueurs[0]);
+            joueurs[0].finPartie(score1);
+            joueurs[1].finPartie(score2);
             joueurs[0].gestionPv(joueurs[1]);
+
+            try{
+                life = ImageIO.read(new File("Ressources/life.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
 
 
@@ -416,6 +443,10 @@ public class MyListener   {
                     public void actionPerformed(ActionEvent e) {
                         c1.show(cards,listContent[2]);
                         scores=null;
+                        score1.getToInit();
+                        score2.getToInit();
+                        applause.stop();
+                        song.stop();
                     }
                 });
 
@@ -423,6 +454,21 @@ public class MyListener   {
                 next.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
+                        try {
+                            applause.stop();
+                            song.stop();
+                            sectionPass = AudioSystem.getClip();
+                            sectionPass.open(AudioSystem.getAudioInputStream(new File("Ressources/sectionpass.wav")));
+                            sectionPass.start();
+                        } catch (Exception exc) {
+                            exc.printStackTrace(System.out);
+                        }
+
+                        try {
+                            Thread.sleep(5000);
+                        } catch (InterruptedException f) {
+                            f.printStackTrace();
+                        }
                         System.exit(0);
                         scores = null;
                     }
@@ -446,17 +492,23 @@ public class MyListener   {
             g.setFont(police);
             g.setColor(Color.WHITE);
             g.drawString(String.valueOf(score1.points),80,160);
-            g.drawString(String.valueOf(score1.acc),80,250);
+            g.drawString(String.valueOf((double)Math.round(score1.acc*100)/(100)),80,250);
             g.drawString(String.valueOf(score1.combos),80,340);
-            g.drawString(String.valueOf(joueurs[0].degats),80,445);
+            g.drawString(String.valueOf(score1.degats),80,445);
 
             g.drawString(String.valueOf(score2.points),500,160);
-            g.drawString(String.valueOf(score2.acc),500,250);
+            g.drawString(String.valueOf((double)Math.round(score2.acc*100)/(100)),500,250);
             g.drawString(String.valueOf(score2.combos),500,340);
-            g.drawString(String.valueOf(joueurs[1].degats),500,445);
+            g.drawString(String.valueOf(score2.degats),500,445);
 
-            score1.getToInit();
-            score2.getToInit();
+            if (joueurs[0].pv>0) {
+                g.drawImage(life, 92, 517, (joueurs[0].pv * 200) / joueurs[0].maxPv, 22, this);
+            }
+            if(joueurs[1].pv>0){
+                g.drawImage(life,498,517,(joueurs[1].pv*200)/joueurs[1].maxPv,22,this);
+
+            }
+
         }
 
     }

@@ -18,11 +18,11 @@ public class PChara extends JPanel{
 
 
 
-    public TitreChara persoJ1 = new TitreChara("J1 : Choisir un Chara");
+    public TitreChara persoJ1 = new TitreChara("J1 : Choisissez un personnage");
     private Image select = null;
     private ImChara charaBlanc = new ImChara("Ressources/SettingBackBW.jpg", select);
     public JPanel PCharaBlanc = new JPanel();
-    public TitreChara persoJ2 = new TitreChara("J2 : Choisir un Chara");
+    public TitreChara persoJ2 = new TitreChara("J2 : Choisissez un personnage");
 
 
     Image hmiku = null;
