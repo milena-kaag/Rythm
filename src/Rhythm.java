@@ -5,10 +5,10 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
 
-public class Rythm {
+public class Rhythm {
     public static MyListener start; //Classe principale du jeu qui gère la succession des panneaux
-    public static boolean launchTheGame = false;
-    public static int mapType;
+    public static boolean launchTheGame = false; // Variable qui indique quand lancer le jeu à proprement parlé.
+    public static int mapType; //Indique quelle map lancer
     private static Map map = new Map(); //Création des différentes maps
     private static Fenetre win = null; //Fenêtre qui sert au jeu de rythme
 
@@ -31,8 +31,8 @@ public class Rythm {
         }
 
 
-        while (true) { //Boucle du jeu
-            if (launchTheGame == false) {
+        while (true) {                          //Boucle du jeu
+            if (!launchTheGame) {
                 {
                     try {
                         Thread.sleep(500);
@@ -45,6 +45,7 @@ public class Rythm {
                 win.setVisible(true);
                 MyListener.launchMap(map.listMap[mapType], win, start.score1, start.score2); //Lance la map
                 launchTheGame = false; //Fin de la phase de jeu
+
                 start.scores = start.new PScore(); //Phase de scores
                 start.cards.add(start.scores, start.listContent[3]);
                 start.c1.show(start.cards, start.listContent[3]);

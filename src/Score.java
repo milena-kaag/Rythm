@@ -3,10 +3,10 @@ public class Score {
 
     int points, combos, avancement, player, degats; // Avancement : donne la position actuelle dans le tableau notes (donc le nombre de notes depuis le début de la map)
     double acc; // Precision du joueur
-    int[] notes = new int[600]; // Stocke tous les scores de notes d'un joueur pendant une map
+    private int[] notes = new int[600]; // Stocke tous les scores de notes d'un joueur pendant une map
 
 
-    public Score(int player){
+    Score(int player){
         this.player = player;
     }
 
@@ -24,7 +24,7 @@ public class Score {
     }
 
     public void calculDegats(Personnage loli, Personnage foe){
-        this.degats =(int) (0.5 * (10 * points * acc + 0.1 * combos * loli.combo)/(5000 + foe.moe));
+        this.degats =(int) (2*(5* points * acc+points*(loli.puissance/5000) + 0.1 * combos * loli.combo)/(5000 + foe.moe));
     }
 
     public void calculAcc(){ // Effectue le calcul de precision du joueur

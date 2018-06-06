@@ -10,27 +10,27 @@ import java.io.IOException;
 
 
 public class MyListener   {
-    //La classe la plus englobante du programme !
-    CardLayout c1 = new CardLayout();
-    String[] listContent = {"HOME", "CHARA","MAP","SCORE","INFOS","WINNER"};//Liste qui permet de s'y retrouver dans les indices du cardlayout
+    //La classe qui gère tout l'affichage et récupère les actions du joueur dans les menus
+    CardLayout c1 = new CardLayout(); //Element principal de la classe qui permet de se faire succéder les différents panneaux de sélection
+    String[] listContent = {"HOME", "CHARA","MAP","SCORE","INFOS","WINNER"}; //Liste qui permet de s'y retrouver dans les indices du cardlayout
 
     JPanel cards = new JPanel(c1); //Panneau qui regroupe l'ensemble des panneaux
-    PHome home = new PHome(); //menu d'accueil
-    PChara chara = new PChara();//menu sélection des persos
-    PMap map = new PMap(); //menu sélection de la map (musique)
-    PScore scores;
-    PHome.PInfos infos = home.new PInfos();
+    private PHome home = new PHome(); //menu d'accueil
+    private PChara chara = new PChara(); //menu sélection des persos
+    private PMap map = new PMap(); //menu sélection de la map (musique)
+    PScore scores; //menu qui affiche les scores, recréé à chaque fois
+    private PHome.PInfos infos = home.new PInfos(); //menu qui affiche des instructions à propos du jeu
     FenetreM theWindow = new FenetreM(); //La Fenêtre qui recevra les panneaux et les affichera
 
     Score score1 = new Score(1);
     Score score2 = new Score(2);
-    Personnage[] joueurs = new Personnage[2];
-    int creationPersos = 0;
+    private Personnage[] joueurs = new Personnage[2];
+    private int creationPersos = 0;
 
 
 
 
-    public MyListener() {
+    MyListener() {
 
         cards.add(home, listContent[0]);
         cards.add(chara,listContent[1]);
@@ -40,9 +40,9 @@ public class MyListener   {
         theWindow.setVisible(true);
 
 
-
+//Boutons du menu d'accueil
         home.bouton2.addActionListener(new ActionListener() {
-            @Override
+            @Override //Permet de redéfinir une méthode, mais avec une syntaxe simplifiée (pas besoin de rédiger tout ce qui est signature de la méthode)
                 public void actionPerformed(ActionEvent e) {
                     c1.show(cards,listContent[4]);
 
@@ -61,16 +61,18 @@ public class MyListener   {
             }
         });
 
+
+//Boutons de sélection des persos
         chara.BMiku.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent e) {
-                chara.cChara.show(chara.cardsChara,chara.listContent[1]);
+            public void mouseEntered(MouseEvent e) { //Action quand la souris entre dans la zone du bouton
+                chara.cChara.show(chara.cardsChara,chara.listContent[1]); //Affiche l'image correspondant au personnage
             }
-            public void mouseExited (MouseEvent e) {
+            public void mouseExited (MouseEvent e) { //Action quand la souris quitte la zone du bouton
                 chara.cChara.show(chara.cardsChara,chara.listContent[0]);
             }
-            public void mouseClicked (MouseEvent e) {
-                creationPersos = addPerso(joueurs, "Miku", c1, cards,chara,creationPersos);
+            public void mouseClicked (MouseEvent e) { //Action quand on clique sur le bouotn
+                creationPersos = addPerso(joueurs, "Miku", c1, cards,chara,creationPersos); //Crée l'objet personnage
             }
         });
         chara.BAka.addMouseListener(new MouseAdapter() {
@@ -82,7 +84,7 @@ public class MyListener   {
 
             }
             public void mouseExited (MouseEvent e) {
-                Rythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
+                Rhythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
             }
             public void mouseClicked (MouseEvent e) {
 
@@ -96,7 +98,7 @@ public class MyListener   {
 
             }
             public void mouseExited (MouseEvent e) {
-                Rythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
+                Rhythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
             }
             public void mouseClicked (MouseEvent e) {
 
@@ -110,7 +112,7 @@ public class MyListener   {
 
             }
             public void mouseExited (MouseEvent e) {
-                Rythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
+                Rhythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
             }
             public void mouseClicked (MouseEvent e) {
 
@@ -124,7 +126,7 @@ public class MyListener   {
 
             }
             public void mouseExited (MouseEvent e) {
-                Rythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
+                Rhythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
             }
             public void mouseClicked (MouseEvent e) {
 
@@ -138,7 +140,7 @@ public class MyListener   {
 
             }
             public void mouseExited (MouseEvent e) {
-                Rythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
+                Rhythm.start.chara.cChara.show(chara.cardsChara,chara.listContent[0]);
             }
             public void mouseClicked (MouseEvent e) {
 
@@ -146,18 +148,20 @@ public class MyListener   {
             }
         });
 
+
+//Boutons de sélection des maps
         map.firstMap.addMouseListener(new MouseAdapter(){
             @Override
             public void mouseEntered(MouseEvent e) {
-                map.cMap.show(map.cardsMap, map.listMap[1]);
+                map.cMap.show(map.cardsMap, map.listMap[1]); //Titres et informations concernant la map
             }
             public void mouseExited(MouseEvent e) {
                 map.cMap.show(map.cardsMap, map.listMap[0]);
             }
             public void mouseClicked (MouseEvent e){
                 //Lance la Map
-                Rythm.mapType = 0;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 0;
+                Rhythm.launchTheGame = true;
             }
         });
         map.oddsAndEnds.addMouseListener(new MouseAdapter(){
@@ -170,8 +174,8 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 1;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 1;
+                Rhythm.launchTheGame = true;
             }
         });
         map.himeHime.addMouseListener(new MouseAdapter(){
@@ -184,8 +188,8 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 5;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 5;
+                Rhythm.launchTheGame = true;
             }
         });
         map.sans.addMouseListener(new MouseAdapter(){
@@ -198,8 +202,8 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 2;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 2;
+                Rhythm.launchTheGame = true;
             }
         });
         map.sasageyo.addMouseListener(new MouseAdapter(){
@@ -212,8 +216,8 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 6;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 6;
+                Rhythm.launchTheGame = true;
             }
         });
         map.bonetrousle.addMouseListener(new MouseAdapter(){
@@ -226,8 +230,8 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 3;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 3;
+                Rhythm.launchTheGame = true;
             }
         });
         map.asgore.addMouseListener(new MouseAdapter(){
@@ -240,8 +244,8 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 7;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 7;
+                Rhythm.launchTheGame = true;
             }
         });
         map.bergentruckung.addMouseListener(new MouseAdapter(){
@@ -254,26 +258,25 @@ public class MyListener   {
             }
             public void mouseClicked (MouseEvent e){
                 //Lance map
-                Rythm.mapType = 4;
-                Rythm.launchTheGame = true;
+                Rhythm.mapType = 4;
+                Rhythm.launchTheGame = true;
             }
         });
         }
 
 
 
-    public static int addPerso(Personnage[] persos, String nameChara, CardLayout c, JPanel cards, PChara chara, int creationPersos){
+    private static int addPerso(Personnage[] persos, String nameChara, CardLayout c, JPanel cards, PChara chara, int creationPersos){
+        //Test s'il y a déjà un personnage existant
         if (creationPersos==0) {
             Personnage J1 = new Personnage(nameChara);
-            persos[0] =J1;
-            chara.PCharaBlanc.remove(chara.persoJ1);
+            persos[0] =J1; //Tableaux contenant les persos
+            chara.PCharaBlanc.remove(chara.persoJ1); //Change l'instruction "J1 choisissez perso" en "J2 Joisissez perso"
             chara.PCharaBlanc.add(chara.persoJ2,BorderLayout.NORTH);
-        } else if (creationPersos==1){
+        } else {
             Personnage J2 = new Personnage(nameChara);
             persos[1]=J2;
-            c.next(cards);
-        } else{
-            c.next(cards);
+            c.next(cards); //Passe à l'écran de sélection des maps
         }
         creationPersos++;
         return creationPersos;
@@ -294,7 +297,7 @@ public class MyListener   {
             exc.printStackTrace(System.out);
         }
 
-        System.out.println("Playing : " + map.musicFileName); // On joue la musique
+        //On joue la musique
         Clip musique = null;
         try {
             musique = AudioSystem.getClip();
@@ -315,11 +318,11 @@ public class MyListener   {
         int[] avancement = new int[4];
         for(int i=-map.vitesseDefilement; i<(map.duree*1000/map.beatDuration); i++) {
 
-            affichageInfos(map, i, beatNB, musique, score1, score2, fenetre);
 
 
 
-            for(int note=0; note<20; note++) { // Un chti bruit a chaque note qui arrive au point où il faut appuyer
+
+            for(int note=0; note<20; note++) { // Un bruit à chaque note qui arrive au point où il faut appuyer
                 if (fenetre.getNotesOnScreen()[note].y == 545) {
                     hitsound.stop();
                     hitsound.setMicrosecondPosition(0);
@@ -340,60 +343,23 @@ public class MyListener   {
             fenetre.waitForNextBeat(map, 15, i*map.beatDuration + map.offset - musique.getMicrosecondPosition()/1000, score1, score2);
             //confirmation();
         }
-
-        score1.calculComboMax();
-        score2.calculComboMax();
-        System.out.println(score1.combos + " " + score2.combos);
-
     }
 
-    public static int findSpace(Fenetre fenetre) { // Cherche un emplacement dans le tableau des notes pas encore occupé pour en placer une nouvelle (2 méthodes, laquelle est plus rapide ?)
+    private static int findSpace(Fenetre fenetre) { // Cherche un emplacement dans le tableau des notes pas encore occupé pour en placer une nouvelle
         int k = 0;
         while ((!fenetre.getNotesOnScreen()[k].hitByP1) && (!fenetre.getNotesOnScreen()[k].hitByP2)) {
             k++;
         }
         return k;
-        /*for(int i=0; i<20; i++){
-            if(fenetre.getNotesOnScreen()[i].y >= 650){
-                return i;
-            }
-        }
-        return 0;*/
-    }
-
-    public static void affichageInfos(SongClass map, int i, int beatNB, Clip musique, Score score1, Score score2, Fenetre fenetre) { // Temporaire, affiche des informations pendant l'exécution du jeu pour débug
-
-        // On peut mettre les lignes non désirées dans l'immédiat en commentaire
-
-        //System.out.println("i : " + i + "       beatNB : " + beatNB);
-        //System.out.println("Decalage actuel (ms) : " + (musique.getMicrosecondPosition()/1000 - ((beatNB + map.vitesseDefilement)*map.beatDuration)));
-        //System.out.println();
-
-        /*for(int j=0; j<20; j++){
-            System.out.print(fenetre.getNotesOnScreen()[j].colonne + " " + fenetre.getNotesOnScreen()[j].y + " " + fenetre.getNotesOnScreen()[j].x1 + " " + fenetre.getNotesOnScreen()[j].x2 + "    ");
-        }
-        System.out.println();*/
-
-        /*for(int j=0; j<score1.avancement; j++){
-            System.out.print(score1.notes[j] + " ");
-        }
-        System.out.println();*/
-        /*for(int j=0; j<score1.avancement; j++){
-            System.out.print(score2.notes[j] + " ");
-        }
-        System.out.println();*/
-
-        score1.calculAcc();
-        score2.calculAcc();
-        System.out.println(score1.acc + " " + score2.acc);
 
     }
 
-    public class PScore extends JPanel {
+
+    public class PScore extends JPanel { //Panneau affichant les scores. Placé ici pour hériter des variables du MyListener
 
         GridLayout g1 = new GridLayout(12, 3, 8, 8);
         Bouton next = new Bouton ("Suivant","Ressources/fondBoutonR.jpg");
-        Image life;
+        Image life; //Barre de vie
         Clip song;
         Clip applause;
         Clip sectionPass;
@@ -401,7 +367,8 @@ public class MyListener   {
 
 
 
-        PScore (){
+        PScore(){
+//Effets sonores
             try {
                 applause = AudioSystem.getClip();
                 applause.open(AudioSystem.getAudioInputStream(new File("Ressources/Applause sound effect.wav")));
@@ -409,8 +376,6 @@ public class MyListener   {
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
             }
-
-
             try {
                 song = AudioSystem.getClip();
                 song.open(AudioSystem.getAudioInputStream(new File("Ressources/Victory Theme.wav")));
@@ -418,7 +383,16 @@ public class MyListener   {
             } catch (Exception exc) {
                 exc.printStackTrace(System.out);
             }
+
+
+//On ajoute le bouton au panneau
             this.setLayout(g1);
+            for(int i=0;i<34;i++){
+                this.add(Box.createGlue());
+            }
+            this.add(next);
+
+//Calcul des différentes valeurs de jeu liées aux deux personnages
             score1.calculAcc();
             score1.calculScore();
             score1.calculComboMax();
@@ -438,31 +412,30 @@ public class MyListener   {
             }
 
 
-
+//Test la vie des deux personnage : situation de milieu de partie ou de fin de partie ?
             if((joueurs[0].pv > 0)&&(joueurs[1].pv > 0)){
                 next.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
 
-                        scores=null;
-                        score1.getToInit();
+                        scores=null; //Retire le pointeur de l'objet scores pour qu'il soit à therme détruit par le garbage collector
+                        score1.getToInit(); //Remet les valeurs de combos, scores,... à zéro
                         score2.getToInit();
                         applause.stop();
                         song.stop();
-                        c1.show(cards,listContent[2]);
+                        c1.show(cards,listContent[2]); //Milieu de partie : le bouton fait retourner à l'écran de sélection des maps
                     }
                 });
-
             } else {
                 next.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         applause.stop();
                         song.stop();
-                        if(joueurs[0].pv>joueurs[1].pv){
+                        if(joueurs[0].pv>joueurs[1].pv){ //Si le joueur 1 gagne
                             winScreen = new PJwins(1);
                         }else{
-                            winScreen = new PJwins(2);
+                            winScreen = new PJwins(2); //Si le joueur 2 gagne
                         }
                         cards.add(winScreen,listContent[5]);
                         c1.show(cards,listContent[5]);
@@ -476,29 +449,24 @@ public class MyListener   {
                         }
 
                         Thread t = new Thread(){
-                            public void run(){
+                            public void run(){ //Sleep placé dans une thread différente pour ne pas bloquer l'affichage de winScreen
                                 try {
-                                    Thread.sleep(5000);
+                                    Thread.sleep(3000);
                                 } catch (InterruptedException f) {
                                     f.printStackTrace();
                                 }
-                                System.exit(0);
-                                scores = null;
+                                System.exit(0); //Fin du programme
                             }
                         };
                         t.start();
-
-
                     }
                 });
             }
-            for(int i=0;i<34;i++){
-                this.add(Box.createGlue());
-            }
-            this.add(next);
         }
 
         public void paintComponent(Graphics g) {
+
+//Image de fond
             Image img=null;
             try{
                 img = ImageIO.read(new File("Ressources/score.png"));
@@ -506,9 +474,12 @@ public class MyListener   {
                 e.printStackTrace();
             }
             g.drawImage(img,0,0,this.getWidth(),this.getHeight(),this);
+
+//Affichage des valeurs de jeu
             Font police = new Font("Tahoma", Font.BOLD, 25);
             g.setFont(police);
             g.setColor(Color.WHITE);
+
             g.drawString(String.valueOf(score1.points),80,160);
             g.drawString(String.valueOf((double)Math.round(score1.acc*100)/(100)),80,250);
             g.drawString(String.valueOf(score1.combos),80,340);
@@ -519,19 +490,19 @@ public class MyListener   {
             g.drawString(String.valueOf(score2.combos),500,340);
             g.drawString(String.valueOf(score2.degats),500,445);
 
+//Affichage de la barre de vie
             if (joueurs[0].pv>0) {
                 g.drawImage(life, 92, 518, (joueurs[0].pv * 200) / joueurs[0].maxPv, 22, this);
             }
             if(joueurs[1].pv>0){
                 g.drawImage(life,497,518,(joueurs[1].pv*200)/joueurs[1].maxPv,22,this);
-
             }
-
         }
 
-        public class PJwins extends JPanel{
+        public class PJwins extends JPanel{ //Panneau qui affiche juste l'image de victoire
 
             Image winner;
+
             PJwins(int vainqueur){
                 if (vainqueur ==1){
                     try{
